@@ -1,0 +1,57 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link rel="shortcut icon" type="image/png" href="#"/>
+    <link type="text/css" href="{% static 'chat/css/style.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'chat/css/style.css' %}">
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+    <link href="{% static 'chat/css/bootstrap.min.css' %}" type="text/css" rel="stylesheet">
+    <script src="{% static 'chat/js/bootstrap.bundle.min.js' %}"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="page">
+       
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">Disabled</a>
+            </li>
+            
+            {% if request.user.is_authenticated %}
+                <li class="nav-item" id="user_login">
+                  <a class="nav-link disabled" href="{% url "authorization:logout" %}">{{user.username|truncatechars:8}}
+                  </a>
+                </li>
+                <li class="nav-item" id="logout_li"><a class="nav-link position-relative" href="{% url "authorization:logout" %}">Выйти</a></li>
+            {% else %}
+            <li class="nav-item" id='login_non_auth' ><a  class="nav-link" href="{% url "authorization:login" %}">Войти</a></li>
+                <li class="nav-item"><a  class="nav-link" href="{% url "authorization:registration" %}">Регистрация</a></li>
+            {% endif %}
+
+          </ul>
+          
+<br>
+<br>
+    {% block content %}
+    
+    {% endblock %}
+
+  </div>
+</div>
+
+</body>
+</html>

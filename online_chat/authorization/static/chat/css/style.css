@@ -1,0 +1,58 @@
+html, body {
+    height: 100%;
+    font-family: Arial, Tahoma;
+    color: rgb(236, 233, 233);
+}
+
+.header {
+    height: 45px;
+    border-radius: 20px 20px 20px 20px;
+}
+
+.wrapper {
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page {
+    min-height: 100%;
+    padding-bottom: 90px;
+    min-width: 1000px;
+    box-sizing: border-box;
+}
+
+.authorization{
+    display: flex;
+    justify-content: center;
+    margin: 150px 0 0 0;
+}
+
+.authorization_h5_center{
+    text-align: center;
+}
+
+.login_btn{
+    display:block;
+    float:left;
+}
+
+.login_p_social_authorization{
+    margin: 80px 0 15px 0;
+    text-indent: 25%;
+}
+
+.social_icons{
+    margin: 0 0 0 150px;
+}
+
+.forgot_password{
+    display:block;
+    float:left;
+    margin: 10px 0 0 150px;
+}
+
+#login_non_auth,
+#user_login{
+    margin-left: auto;
+}

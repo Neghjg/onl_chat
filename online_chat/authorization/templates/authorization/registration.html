@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<br>
+<div class="authorization">
+    <div>
+        <div><h5 class="authorization_h5_center">Регистрация</h5></div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form_error">{{ form.non_field_errors }}</div>
+            <p>
+                <label class="form_label" for="id_username">Имя: </label>
+                <input type='text' class='form-control' id= 'order_form' name='first_name'
+                    value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}">
+            </p>
+            {% if form.first_name.errors %}
+                <div class="alert alert-danger alert-dismissible fade show">{{ form.first_name.errors }}</div>
+            {% endif %}
+            <p>
+                <label class="form_label" for="id_username">Фамилия: </label>
+                <input type='text' class='form-control' id= 'order_form' name='last_name'
+                    value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}">
+            </p>
+            {% if form.last_name.errors %}
+                <div class="alert alert-danger alert-dismissible fade show">{{ form.last_name.errors }}</div>
+            {% endif %}
+            <p>
+                <label class="form_label" for="id_username">Логин: </label>
+                <input type='text' class='form-control' id= 'order_form' name='username'
+                    value="{% if form.username.value %}{{ form.username.value }}{% endif %}">
+            </p>
+            {% if form.username.errors %}
+                <div class="alert alert-danger alert-dismissible fade show">{{ form.username.errors }}</div>
+            {% endif %}
+            <p>
+                <label class="form_label" for="id_email">Email: </label>
+                <input type='email' class='form-control' id= 'order_form' name='email'
+                value="{% if form.email.value %}{{ form.email.value }}{% endif %}">
+            </p>
+            {% if form.email.errors %}
+                <div style="max-width:400px" class="alert alert-danger alert-dismissible fade show">{{ form.email.errors }}</div>
+            {% endif %}
+            <p>
+                <label class="form_label" for="id_password1">Пароль: </label>
+                <input type='password' class='form-control' id= 'order_form' name='password1'
+                    value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}">
+            </p>
+            {% if form.password1.errors %}
+                <div style="max-width:400px" class="alert alert-danger alert-dismissible fade show">{{ form.password1.errors }}</div>
+            {% endif %}
+            <p>
+                <label class="form_label" for="id_password2">Повтор пароля: </label>
+                <input type='password' class='form-control' id= 'order_form' name='password2'
+                value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}">
+            </p>
+            {% if form.password2.errors %}
+                <div style="max-width:400px" class="alert alert-danger alert-dismissible fade show">{{ form.password2.errors }}</div>
+            {% endif %}
+            <p>
+                {{ form.recaptcha }}
+            </p>
+            {% if form.recaptcha.errors %}
+                <div class="alert alert-danger alert-dismissible fade show">{{ form.recaptcha.errors }}</div>
+            {% endif %}
+            <button type="sumbit" class="btn btn-primary">Регистрация</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

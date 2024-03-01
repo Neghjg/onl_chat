@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<br>
+<div class="authorization">
+    <div>
+        <div><h5 class="authorization_h5_center">Авторизация</h5></div>
+            <form method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div style="max-width:400px" class="alert alert-danger alert-dismissible fade show">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+                {% for f in form %}
+                    <p>
+                        <label class="form_label" for="{{ f.id_for_label }}">
+                          {{f.label}}: 
+                        </label>{{ f }}
+                    </p>
+                    {% if f.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            {{ f.errors }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="login_btn"><button type="submit" class="btn btn-primary">Отправить</button></div><a href="#"><div class="forgot_password"><h6>Забыл пароль?</h6></div></a>
+              </form>
+              
+              <p class="login_p_social_authorization">Авторизоваться через:</p>
+              <a class="social_icons" href="#"><img style="width: 35px;" src="{% static 'chat/img/vk.png' %}" ></a>
+              <a href="#"><img style="width: 35px;" src="{% static 'chat/img/google.png' %}" ></a>
+              
+    </div>
+</div>
+
+{% endblock %}
