@@ -13,6 +13,7 @@ def room(request, room_name):
    
     
     return render(request, "chat/room.html", {"room_name": room_name, 'user': request.user})
+    #return render(request, "chat/room_1.html", {"room_name": room_name, 'user': request.user})
 
 #def room(request, user2):
 #    user1 = request.user.username

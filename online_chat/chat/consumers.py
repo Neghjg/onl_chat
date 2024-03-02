@@ -62,7 +62,8 @@ class ChatConsumer(WebsocketConsumer):
         message = UserMessege2.objects.filter(chat_room=self.room).order_by("-id")[:10]
         for mes in reversed(message):
             self.send(text_data=json.dumps({
-                "message": mes.text
+                "message": mes.text,
+                'user': mes.user.username
             }))
 
     def disconnect(self, close_code):
@@ -80,12 +81,12 @@ class ChatConsumer(WebsocketConsumer):
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name, {"type": "chat.message", "message": message,
-                                   'user': self.user.username, }
+                                   "user": self.user.username, }
         )
 
     # Receive message from room group
     def chat_message(self, event):
         message = event["message"]
-
+        user = event["user"]
         # Send message to WebSocket
-        self.send(text_data=json.dumps({"message": message}))
+        self.send(text_data=json.dumps({"message": message, "user": user}))

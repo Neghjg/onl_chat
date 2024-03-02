@@ -5,19 +5,20 @@
     <div id="chat">
     </div>
     <div id="chat-input">
-    <!--<textarea id="chat-log" cols="100" rows="20">--></textarea><br>
+    <!--<textarea id="chat-log" cols="100" rows="20"></textarea>--><br>
     <input id="chat-message-input" type="text" size="100"><br>
     <input id="chat-message-submit" type="button" value="Send">
     </div>
+    {% block include_js %}
     {{ room_name|json_script:"room-name" }}
     {{ request.user.username|json_script:"request-user" }}
+    {% endblock %}
 
-    
+    {% block domready %}
     <script>
         
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const requestUser = JSON.parse(document.getElementById('request-user').textContent);
-        console.log(requestUser);
  
         
         const chatSocket = new WebSocket(
@@ -31,6 +32,7 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             const chat = document.getElementById('chat');
+            console.log(data);
             const isMe = data.user === requestUser;
             const source = isMe ? 'me' : 'other';
             const name = isMe ? 'Me' : data.user;
@@ -38,7 +40,9 @@
             chat.innerHTML += '<div class="message ' + source + '">' +
                               '<strong>' + name + '</strong> ' +
                               data.message + '</div>';
+            chat.scrollTop = chat.scrollHeight;
         };
+
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
@@ -61,4 +65,5 @@
             messageInputDom.value = '';
         };
     </script>
+    {% endblock %}
 {% endblock %}
