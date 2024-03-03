@@ -81,6 +81,14 @@ html, body {
     border-left: 1px solid #eaeaea
 }
 
+#input-send {
+    flex-wrap: nowrap;
+}
+
+#chat-message-submit {
+    margin: 0 0 0 10px;
+}
+
 .people-list {
     -moz-transition: .5s;
     -o-transition: .5s;
