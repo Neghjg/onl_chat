@@ -76,7 +76,7 @@
                         
                     </div>
                 </div>
-                <div class="chat-history">
+                <div class="chat-history" id='chat_scroll'>
                         <ul class="m-b-0" id="chat">
 
                         </ul>
@@ -90,7 +90,7 @@
                                 <input class="form-control" id="chat-message-input" type="text" size="100">
                             </div>
                                 <!--<textarea id="chat-log" cols="100" rows="20"></textarea>--><br>
-                                <button class="input-group-text" id="chat-message-submit" type="button" value="Send">
+                                <button class="btn btn-primary" id="chat-message-submit" type="button" value="Send">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
                                     <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"/>
                                   </svg>
@@ -128,6 +128,7 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             const chat = document.getElementById('chat');
+            const chat_scroll = document.getElementById('chat_scroll');
             console.log(data);
             const isMe = data.user === requestUser;
             const source = isMe ? 'my-message' : 'other-message float-right';
@@ -138,7 +139,7 @@
                               '<strong>' + name + '</strong> ' +
                               data.message + '</div>' +
                               '</li>';
-            chat.scrollTop = chat.scrollHeight;
+            chat_scroll.scrollTop = chat_scroll.scrollHeight;
         };
 
 

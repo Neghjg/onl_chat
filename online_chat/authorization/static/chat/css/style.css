@@ -153,11 +153,12 @@ html, body {
 
 .chat .chat-history {
     padding: 20px;
-    border-bottom: 2px solid #fff
+    border-bottom: 2px solid #fff;
+    overflow-y: auto;
 }
 
 .chat .chat-history ul {
-    padding: 0
+    padding: 0;
 }
 
 .chat .chat-history ul li {
@@ -328,3 +329,23 @@ html, body {
         overflow-x: auto
     }
 }
+
+.chat-history::-webkit-scrollbar {
+    width: 5px;
+    
+    
+  }
+  
+.chat-history::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(13, 110, 253, 0.2);
+    
+    
+  }
+  
+.chat-history::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background-color: #f9f9fd;
+    display: none;
+  }
