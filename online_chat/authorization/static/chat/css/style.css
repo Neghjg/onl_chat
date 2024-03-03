@@ -309,3 +309,14 @@ html, body {
         overflow-x: auto
     }
 }
+
+@media only screen and (min-width: 1025px) {
+    .chat-app .chat-list {
+        height: 480px;
+        overflow-x: auto
+    }
+    .chat-app .chat-history {
+        height: 600px;
+        overflow-x: auto
+    }
+}
