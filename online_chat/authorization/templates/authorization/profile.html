@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div id="cart_div">
+    <div class="profile">
+        <div>
+            <div style="width:350px;"><h5 class="authorization_h5_center">Профиль</h5></div>
+            <form action="{% url "authorization:profile" %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>
+                    <label for="id_first_name" class="form-label">Имя*</label>
+                    <input type="text" class="form-control" id= 'profile_form'
+                        name="first_name"
+                        placeholder="Введите ваше имя"
+                        value="{{ form.first_name.value }}"
+                        required>
+                    {% if form.first_name.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show">{{form.first_name.errors}}</div>
+                    {% endif %}
+                </p>
+                <p>
+                    <label for="id_last_name" class="form-label">Фамилия*</label>
+                    <input type="text" class="form-control" id= 'profile_form'
+                        name="last_name"
+                        placeholder="Введите вашу фамилию"
+                        value="{{ form.last_name.value }}"
+                        required>
+                    {% if form.last_name.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show">{{form.last_name.errors}}</div>
+                    {% endif %}
+                </p>
+                <p>
+                    <label for="id_username" class="form-label">Логин*</label>
+                    <input type="text" class="form-control" id= 'profile_form'
+                        name="username"
+                        placeholder="Введите ваше имя пользователя"
+                        value="{{ form.username.value }}"
+                        required>
+                    {% if form.username.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show">{{form.username.errors}}</div>
+                    {% endif %}
+                </p>
+                <p>
+                    <label for="id_email" class="form-label">Email*</label>
+                    <input type="email" class="form-control" id= 'profile_form'
+                        name="email"
+                        placeholder="Введите ваш email *youremail@example.com"
+                        value="{{ form.email.value }}"
+                        required>
+                    {% if form.email.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show">{{form.email.errors}}</div>
+                    {% endif %}
+                </p>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

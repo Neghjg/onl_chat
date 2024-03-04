@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user, logout
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 def registration(request):
@@ -42,3 +45,17 @@ def logout_user(request):
     #messages.success(request, f'{request.user.username}, Вы вышли из аккаунта')
     logout(request)
     return redirect("authorization:login")
+
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(data=request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('authorization:profile'))
+    else:
+        form = ProfileForm(instance=request.user)
+
+    return render(request, 'authorization/profile.html', {"form": form,
+                                                          'title': 'Профиль'})

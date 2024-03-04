@@ -36,6 +36,13 @@
                   <a class="nav-link disabled" href="{% url "authorization:logout" %}">{{user.username|truncatechars:8}}
                   </a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="{% url "authorization:profile" %}">
+                    <div class="cart_div_a">
+                    Профиль
+                    </div>
+                  </a>
+                </li>
                 <li class="nav-item" id="logout_li"><a class="nav-link position-relative" href="{% url "authorization:logout" %}">Выйти</a></li>
             {% else %}
             <li class="nav-item" id='login_non_auth' ><a  class="nav-link" href="{% url "authorization:login" %}">Войти</a></li>
