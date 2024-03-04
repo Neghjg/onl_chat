@@ -57,6 +57,10 @@ html, body {
     margin-left: auto;
 }
 
+#profile_form{
+    width: 370px;
+}
+
 .card {
     background: #fff;
     transition: .5s;

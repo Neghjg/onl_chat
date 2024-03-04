@@ -50,7 +50,7 @@ def logout_user(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
-        form = ProfileForm(data=request.POST, instance=request.user)
+        form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('authorization:profile'))
