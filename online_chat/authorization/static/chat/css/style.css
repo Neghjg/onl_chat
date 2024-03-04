@@ -57,6 +57,10 @@ html, body {
     margin-left: auto;
 }
 
+#profile_photo {
+    margin: 20px 0 20px 100px;
+}
+
 #profile_form{
     width: 370px;
 }

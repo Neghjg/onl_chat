@@ -131,7 +131,7 @@
             const chat_scroll = document.getElementById('chat_scroll');
             console.log(data);
             const isMe = data.user === requestUser;
-            const source = isMe ? 'my-message' : 'other-message float-right';
+            const source = isMe ? 'other-message float-right' : 'my-message';
             const name = isMe ? 'Me' : data.user;
             //document.querySelector('#chat-log').value += (name + ': ' + data.message + '\n');
             chat.innerHTML += '<li class="clearfix">' +
