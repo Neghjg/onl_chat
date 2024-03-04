@@ -17,3 +17,4 @@ class UserMessege2(models.Model):
     chat_room = models.ForeignKey(ChatMessage2, on_delete=models.CASCADE, null=True, blank=True, related_name='chat_room')
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='user')
     text = models.TextField(max_length=3000, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True, null=True)

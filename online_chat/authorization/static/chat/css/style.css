@@ -199,7 +199,7 @@ html, body {
     font-size: 16px;
     border-radius: 7px;
     display: inline-block;
-    position: relative
+    position: relative;
 }
 
 .chat .chat-history .message:after {
@@ -220,6 +220,7 @@ html, body {
     background: #efefef
 }
 
+
 .chat .chat-history .my-message:after {
     bottom: 100%;
     left: 30px;
@@ -235,7 +236,6 @@ html, body {
 }
 
 .chat .chat-history .other-message {
-    background: #e8f1f3;
     text-align: right
 }
 
@@ -269,7 +269,8 @@ html, body {
 }
 
 .float-right {
-    float: right
+    float: right;
+    background: #e8f1f3;
 }
 
 .clearfix:after {
@@ -303,6 +304,9 @@ html, body {
         height: 300px;
         overflow-x: auto
     }
+    .chat .chat-history .message{
+        max-width: 270px;
+    }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
@@ -314,9 +318,12 @@ html, body {
         height: 600px;
         overflow-x: auto
     }
+    .chat .chat-history .message{
+        max-width: 270px;
+    }
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
     .chat-app .chat-list {
         height: 480px;
         overflow-x: auto
@@ -324,6 +331,9 @@ html, body {
     .chat-app .chat-history {
         height: calc(100vh - 350px);
         overflow-x: auto
+    }
+    .chat .chat-history .message{
+        max-width: 370px;
     }
 }
 
@@ -335,6 +345,9 @@ html, body {
     .chat-app .chat-history {
         height: 600px;
         overflow-x: auto
+    }
+    .chat .chat-history .message{
+        max-width: 610px;
     }
 }
 

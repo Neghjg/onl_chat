@@ -63,7 +63,8 @@ class ChatConsumer(WebsocketConsumer):
         for mes in reversed(message):
             self.send(text_data=json.dumps({
                 "message": mes.text,
-                'user': mes.user.username
+                'user': mes.user.username,
+                "datetime": json.dumps(mes.created, indent=4, sort_keys=True, default=str)
             }))
 
     def disconnect(self, close_code):
@@ -76,17 +77,21 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
+        now = timezone.now()
+        datetime = now.isoformat()
         #UserMessege2.objects.create(chat_room=self.room_name, user=self.user, text=message)
         UserMessege2.objects.create(chat_room=self.room, user=self.user, text=message)
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name, {"type": "chat.message", "message": message,
-                                   "user": self.user.username, }
+                                   "user": self.user.username,
+                                   "datetime": datetime}
         )
 
     # Receive message from room group
     def chat_message(self, event):
         message = event["message"]
         user = event["user"]
+        datetime = event["datetime"]
         # Send message to WebSocket
-        self.send(text_data=json.dumps({"message": message, "user": user}))
+        self.send(text_data=json.dumps({"message": message, "user": user, "datetime": datetime}))

@@ -128,13 +128,19 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             const chat = document.getElementById('chat');
+            const dateOptions = {hour: 'numeric', minute: 'numeric', hour24: true};
+            const datetime = new Date(data.datetime).toLocaleString('ru', dateOptions);
             const chat_scroll = document.getElementById('chat_scroll');
+            console.log(datetime)
             console.log(data);
             const isMe = data.user === requestUser;
             const source = isMe ? 'other-message float-right' : 'my-message';
             const name = isMe ? 'Me' : data.user;
             //document.querySelector('#chat-log').value += (name + ': ' + data.message + '\n');
             chat.innerHTML += '<li class="clearfix">' +
+                              '<div class="message-data ' + source + 
+                              '-data"><span class="message-data-time">' + 
+                                datetime + '</span></div>' + 
                               '<div class="message ' + source + '">' +
                               '<strong>' + name + '</strong> ' +
                               data.message + '</div>' +
