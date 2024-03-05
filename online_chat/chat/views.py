@@ -10,9 +10,10 @@ def room(request, room_name):
     #user_name_2 = request.user.username
     #create_chat_room = ChatMessage.objects.create(user1=user_name, user2=user_name_2)
     #print(create_chat_room)
+    chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user)
    
     
-    return render(request, "chat/room.html", {"room_name": room_name, 'user': request.user})
+    return render(request, "chat/room.html", {"room_name": room_name, 'user': request.user, 'chats': chats})
     #return render(request, "chat/room_1.html", {"room_name": room_name, 'user': request.user})
 
 #def room(request, user2):
