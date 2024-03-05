@@ -12,12 +12,11 @@
                 {% csrf_token %}
                 <p>
                     {% if user.image %}
-                        <a href="{{ user.image.url }}">
-                            <img src="{% thumbnail user.image 150x0 %}" class='img-fluid rounded-circle' id="profile_photo">
-                        </a>
-                        <!--<img src="{{ user.image.url }}"
-                        alt='Фотография профиля' class='img-fluid rounded-circle'
-                        style='max-width: 150px;'>-->
+                        {% thumbnail user.image "150x150" crop="center" as im %}
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle' id="profile_photo"
+                            style='max-width: 150px;'>
+                        {% endthumbnail %}
+                       
 
                     {% else %}
                         <img src="{% static "deps/images/vk_default.jpg" %}"

@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authorization',
     'django_recaptcha',
-    'easy_thumbnails',
+    'sorl.thumbnail',
 ]
 
 RECAPTCHA_PUBLIC_KEY = '6Lc1poUpAAAAAClGkjKWKncY06iAg4c50xvNMA3e'
