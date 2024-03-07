@@ -120,7 +120,8 @@ html, body {
 }
 
 .people-list .chat-list li .name {
-    font-size: 15px
+    font-size: 15px;
+    color: black;
 }
 
 .people-list .chat-list img {

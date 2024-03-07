@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from authorization.models import User
 from chat.models import ChatMessage2
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
@@ -49,4 +51,18 @@ def chat_search(request):
         if query == '':
             query = 'None'
         result = User.objects.filter(username__icontains = query)
-        return render(request, 'chat/search.html', {'query': query, 'result': result})
+        
+        
+    does_req_accept_json = request.accepts("application/json")
+    is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
+    if is_ajax_request:
+        html = render_to_string(
+            template_name="chat/search.html", 
+            context={"result": result, "query":query}
+        )
+
+        data_dict = {"html_from_view": html}
+
+        return JsonResponse(data=data_dict, safe=False)
+    
+    return render(request, 'chat/search.html', {'query': query, 'result': result})
