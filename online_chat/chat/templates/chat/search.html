@@ -1,15 +1,29 @@
 
 {% load static %}
-
+{% load thumbnail %}
 {% block content %}
+
 
 {% if query %}
 
 <div style = 'clear: both;'></div>
 
-{% for i in result %}
-      <a href="{% url "chat:user_name" i.id %}">{{ i.username }} </a>
-  {% endfor %}
+<ul class="list-unstyled chat-list mt-2 mb-0" id="init_html">
+    {% for i in result %}
+    <a href="{% url 'chat:user_name' i.id %}">
+        <li class="clearfix">
+            {% thumbnail i.image "45x45" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
+                    style='max-width: 150px;'>
+            {% endthumbnail %}
+            <div class="about">
+                <div class="name">{{ i.username }}</div>
+                <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+            </div>
+        </li>
+    </a>
+    {% endfor %}
+</ul>
 
 {% else %}
     <div class="empty_cart_parent">

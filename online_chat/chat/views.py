@@ -12,7 +12,7 @@ def room(request, room_name):
     #user_name_2 = request.user.username
     #create_chat_room = ChatMessage.objects.create(user1=user_name, user2=user_name_2)
     #print(create_chat_room)
-    chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user)
+    chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user).order_by("-updated")
    
     
     return render(request, "chat/room.html", {"room_name": room_name, 'user': request.user, 'chats': chats})
@@ -51,6 +51,7 @@ def chat_search(request):
         if query == '':
             query = 'None'
         result = User.objects.filter(username__icontains = query)
+        
         
         
     does_req_accept_json = request.accepts("application/json")

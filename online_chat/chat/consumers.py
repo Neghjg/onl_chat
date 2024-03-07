@@ -81,6 +81,9 @@ class ChatConsumer(WebsocketConsumer):
         datetime = now.isoformat()
         #UserMessege2.objects.create(chat_room=self.room_name, user=self.user, text=message)
         UserMessege2.objects.create(chat_room=self.room, user=self.user, text=message)
+        chat_update = ChatMessage2.objects.get(id=self.room_name)
+        chat_update.updated = now
+        chat_update.save()
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name, {"type": "chat.message", "message": message,
