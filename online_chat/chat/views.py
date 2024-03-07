@@ -9,13 +9,26 @@ def index(request):
     return render(request, "chat/index.html")
 
 def room(request, room_name):
+    chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user).order_by("-updated")
+    
+    
+    #is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest"
+    #if is_ajax_request:
+    #    html_content = render_to_string('chat/includes/included_chat.html', {"room_name": room_name, 'user': request.user,'chats': chats}, request=request)
+    #    return JsonResponse({'html_content': html_content})
+        #html_content = render_to_string(
+        #    template_name='chat/includes/included_chat.html', 
+        #    context = {"room_name": room_name, 
+        #               'user': request.user, 
+        #               'chats': chats}
+        #    )
+        #data_dict = {"html_from_view": html_content}
+        #return JsonResponse(data=data_dict, safe=False)
     #user_name_2 = request.user.username
     #create_chat_room = ChatMessage.objects.create(user1=user_name, user2=user_name_2)
     #print(create_chat_room)
-    chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user).order_by("-updated")
-   
-    
-    return render(request, "chat/room.html", {"room_name": room_name, 'user': request.user, 'chats': chats})
+    #else:
+    return render(request, "chat/room.html", {"room_name": int(room_name), 'user': request.user, 'chats': chats})
     #return render(request, "chat/room_1.html", {"room_name": room_name, 'user': request.user})
 
 #def room(request, user2):
