@@ -13,7 +13,7 @@
                     <!--<div class="input-group-prepend">
                         <span class="input-group-text"><i class="fa fa-search"></i></span>
                     </div>-->
-                    <input type="text" class="form-control" id="user-input" placeholder="Search...">
+                    <input type="text" class="form-control" id="user-input" placeholder="Поиск...">
                     <!--<div class="input-group-append">
                         <button class="btn btn-outline-secondary clear-input" type="button">
                             <i class="fa fa-times"></i>
@@ -22,6 +22,9 @@
                 </div>
                 <div id="replaceable-content">
                 <ul class="list-unstyled chat-list mt-2 mb-0" id="init_html">
+                    {% if not chats %}
+                        <div class="alert alert-info"><p>На данный момент, у вас нет ни одного чата. Воспользуйтесь поиском.</p><div>
+                    {% else %}
                     {% for chat in chats %}
                         {% if chat.user1 != request.user %}
                             {% with user_1=chat.user1 %}
@@ -57,6 +60,7 @@
                         {% endwith %}
                         {% endif %}
                     {% endfor %}
+                    {% endif %}
                 </ul>
                 </div>
             
@@ -129,11 +133,16 @@
         document.querySelector('#chat-message-submit').onclick = function(e) {
             const messageInputDom = document.querySelector('#chat-message-input');
             const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'user': requestUser
-            }));
-            messageInputDom.value = '';
+            
+            if (message !== '') {
+                chatSocket.send(JSON.stringify({
+                    'message': message,
+                    'user': requestUser
+                }));
+                messageInputDom.value = '';
+            } //else {
+                //alert('Пожалуйста, введите текст сообщения.');
+            //}
         };
 
 

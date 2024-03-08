@@ -6,14 +6,14 @@ from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
-    #if not request.user.is_authenticated:
-    #    redirect("registration", permanent=True)
-    #elif request.user.is_authenticated:
-    #    redirect("chat:room", permanent=True)
     return render(request, "chat/index.html")
 
 def room(request, room_name):
     chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user).order_by("-updated")
+    if room_name == 'None' and chats.exists():
+        return render(request, "chat/room.html", {"room_name": chats[0].id, 'user': request.user, "chats": chats})
+    elif room_name == 'None' and not chats.exists():
+        return render(request, "chat/room.html", {'user': request.user})
     
     
     #is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest"

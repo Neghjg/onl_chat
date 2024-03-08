@@ -21,8 +21,8 @@ from online_chat import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('authorization/', include('authorization.urls', namespace='authorization')),
     path("chat/", include("chat.urls")),
+    path('', include('authorization.urls', namespace='authorization')),
 ]
 
 if settings.DEBUG:

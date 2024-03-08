@@ -59,3 +59,11 @@ def profile(request):
 
     return render(request, 'authorization/profile.html', {"form": form,
                                                           'title': 'Профиль'})
+    
+    
+def index_redirect(request):
+    if not request.user.is_authenticated:
+        return redirect("authorization:registration", permanent=True)
+    elif request.user.is_authenticated:
+        return redirect("chat:room", None, permanent=True)
+    

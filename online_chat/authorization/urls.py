@@ -9,4 +9,5 @@ urlpatterns = [
     path("logout/", logout_user, name="logout"),
     path("registration/", registration, name="registration"),
     path('profile/', profile, name='profile'),
+    path("", index_redirect, name="index_redirect")
 ]
