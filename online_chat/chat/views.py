@@ -6,6 +6,10 @@ from django.http import JsonResponse
 
 # Create your views here.
 def index(request):
+    #if not request.user.is_authenticated:
+    #    redirect("registration", permanent=True)
+    #elif request.user.is_authenticated:
+    #    redirect("chat:room", permanent=True)
     return render(request, "chat/index.html")
 
 def room(request, room_name):
