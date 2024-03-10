@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     image = models.ImageField(upload_to='users_images/', default='users_images/vk_default.jpg', blank=True, null=True, verbose_name='photo_user')
     online = models.BooleanField(default=False, verbose_name='online_status')
-    last_online = models.DateTimeField(auto_now=True)
+    last_online = models.DateTimeField(auto_now=True, verbose_name='last_online')
     
     class Meta:
         db_table = 'user'

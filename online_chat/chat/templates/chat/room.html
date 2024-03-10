@@ -38,7 +38,22 @@
                                                 {% endthumbnail %}
                                             <div class="about">
                                                 <div class="name">{{ i.username }}</div>
-                                                <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+                                                <div class="status" id="user-status">
+                                                    {% if i.online %}
+                                                        онлайн
+                                                    {% else %}
+                                                        {% if date|date:"j" == i.last_online|date:"j" %}
+                                                            Был в сети: сегодня<br>
+                                                            в {{ i.last_online|time:"H:i" }}
+                                                        {% elif date|date:"j"|add:-1 == i.last_online|date:"j" %}
+                                                            Был в сети: вчера<br>
+                                                            в {{ i.last_online|time:"H:i" }}
+                                                        {% else %}
+                                                            Был в сети:<br>
+                                                            {{ i.last_online }}
+                                                        {% endif %}
+                                                    {% endif %}  
+                                                </div>                                            
                                             </div>
                                         </li>
                                     </a>
@@ -107,18 +122,18 @@
                         lastOnline.getFullYear() === now.getFullYear()) {
                         // Дата последнего онлайна совпадает с сегодняшней датой
                         const formattedTime = lastOnline.toLocaleTimeString('ru-RU', optionsTime);
-                        userStatusElement.textContent = `Был сегодня в ${formattedTime}`;
+                        userStatusElement.innerHTML = `Был в сети: сегодня<br> в ${formattedTime}`;
                     } else if (lastOnline.getDate() === yesterday.getDate() &&
                         lastOnline.getMonth() === yesterday.getMonth() &&
                         lastOnline.getFullYear() === yesterday.getFullYear()) {
                         // Дата последнего онлайна совпадает с сегодняшней датой
                         const formattedTime = lastOnline.toLocaleTimeString('ru-RU', optionsTime);
-                        userStatusElement.textContent = `Был вчера в ${formattedTime}`;
+                        userStatusElement.textContent = `Был в сети: вчера в ${formattedTime}`;
                 }
                      else {
                         // Дата последнего онлайна не совпадает с сегодняшней датой
                         const formattedDate = lastOnline.toLocaleDateString('ru-RU', options);
-                        userStatusElement.textContent = `последний раз в сети: ${formattedDate}`;
+                        userStatusElement.textContent = `Последний раз в сети:<br> ${formattedDate}`;
                             }
                 }
             } else {
