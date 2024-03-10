@@ -38,7 +38,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.utils import timezone
-from chat.models import ChatMessage2, UserMessege2, ChatMessage3, UserMessege3
+from chat.models import ChatMessage2, UserMessege2, ChatMessage3, UserMessege3, User
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -48,7 +48,7 @@ class ChatConsumer(WebsocketConsumer):
         self.room_group_name = f"chat_{self.room_name}"
         #self.room = ChatMessage2.objects.get(id=self.room_name)
         self.room = ChatMessage3.objects.get(id=self.room_name)
-        
+        self.update_online_status(self.user, True)
         
         
 
@@ -71,6 +71,7 @@ class ChatConsumer(WebsocketConsumer):
 
     def disconnect(self, close_code):
         # Leave room group
+        self.update_online_status(self.user, False)
         async_to_sync(self.channel_layer.group_discard)(
             self.room_group_name, self.channel_name
         )
@@ -100,3 +101,29 @@ class ChatConsumer(WebsocketConsumer):
         datetime = event["datetime"]
         # Send message to WebSocket
         self.send(text_data=json.dumps({"message": message, "user": user, "datetime": datetime}))
+        
+    def update_online_status(self, user, status):
+        # Broadcast online status change to room group
+        get_user = User.objects.get(id=user.id)
+        get_user.online = status
+        get_user.save()
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name, {
+                'type': 'user.online_status',
+                'user': user.username,
+                'status': status,
+                'last_online': json.dumps(get_user.last_online, indent=4, sort_keys=True, default=str)
+            }
+        )
+        
+    def user_online_status(self, event):
+        user = event['user']
+        status = event['status']
+        last_online = event['last_online']
+        # Send online status change message to WebSocket
+        self.send(text_data=json.dumps({
+            'type': 'user.online_status',
+            'user': user,
+            'status': status,
+            'last_online': last_online
+        }))

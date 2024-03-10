@@ -84,6 +84,45 @@
 
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
+
+            if (data.type === 'user.online_status') {
+                // Обновляем элементы на странице согласно полученным данным
+                const userStatusElement = document.getElementById('user-status');
+                if (data.status) {
+                    userStatusElement.textContent = 'онлайн';
+                } else {
+                    //const lastOnline = new Date(data.last_online);
+                    //const options = {day: 'numeric', month: 'short', minute: 'numeric', hour: 'numeric', hour24: true};
+                    //const formattedDate = lastOnline.toLocaleDateString('ru-RU', options);
+                    //userStatusElement.textContent = `последний раз в сети: ${formattedDate}`;
+                    const lastOnline = new Date(data.last_online);
+                    const now = new Date();
+                    const yesterday = new Date(now);
+                    yesterday.setDate(now.getDate() - 1);
+                    const optionsTime = { hour: 'numeric', minute: 'numeric', hour12: false };
+                    const options = {day: 'numeric', month: 'short', minute: 'numeric', hour: 'numeric', hour12: false};
+
+                    if (lastOnline.getDate() === now.getDate() &&
+                        lastOnline.getMonth() === now.getMonth() &&
+                        lastOnline.getFullYear() === now.getFullYear()) {
+                        // Дата последнего онлайна совпадает с сегодняшней датой
+                        const formattedTime = lastOnline.toLocaleTimeString('ru-RU', optionsTime);
+                        userStatusElement.textContent = `Был сегодня в ${formattedTime}`;
+                    } else if (lastOnline.getDate() === yesterday.getDate() &&
+                        lastOnline.getMonth() === yesterday.getMonth() &&
+                        lastOnline.getFullYear() === yesterday.getFullYear()) {
+                        // Дата последнего онлайна совпадает с сегодняшней датой
+                        const formattedTime = lastOnline.toLocaleTimeString('ru-RU', optionsTime);
+                        userStatusElement.textContent = `Был вчера в ${formattedTime}`;
+                }
+                     else {
+                        // Дата последнего онлайна не совпадает с сегодняшней датой
+                        const formattedDate = lastOnline.toLocaleDateString('ru-RU', options);
+                        userStatusElement.textContent = `последний раз в сети: ${formattedDate}`;
+                            }
+                }
+            } else {
+
             const chat = document.getElementById('chat');
             const dateOptions = {hour: 'numeric', minute: 'numeric', day:'numeric', month:'short', hour24: true};
             //const datetime = new Date(data.datetime).toLocaleString('ru', dateOptions);
@@ -93,7 +132,12 @@
             yesterday.setDate(today.getDate() - 1);
             const chat_scroll = document.getElementById('chat_scroll');
             
+            
+        
+
+
             console.log(data);
+            
             const isMe = data.user === requestUser;
             const source = isMe ? 'other-message float-right' : 'my-message';
             const name = isMe ? 'Me' : data.user;
@@ -124,8 +168,11 @@
                               data.message + '</div>' +
                               '</li>';
             chat_scroll.scrollTop = chat_scroll.scrollHeight;
+            }
 
         };
+
+        
 
 
         chatSocket.onclose = function(e) {
@@ -221,7 +268,7 @@
             chats_div.html(initialContent);
         }
 
-       
+
 
     </script>
     {% endblock %}

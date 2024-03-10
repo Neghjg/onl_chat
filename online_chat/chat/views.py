@@ -3,6 +3,8 @@ from authorization.models import User
 from chat.models import ChatMessage2, ChatMessage3
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.utils import timezone
+
 
 # Create your views here.
 def index(request):
@@ -34,7 +36,7 @@ def room(request, room_name):
     #create_chat_room = ChatMessage.objects.create(user1=user_name, user2=user_name_2)
     #print(create_chat_room)
     #else:
-    return render(request, "chat/room.html", {"room_name": int(room_name), 'user': request.user, 'chats': chats})
+    return render(request, "chat/room.html", {"room_name": int(room_name), 'user': request.user, 'chats': chats, 'date': timezone.now()})
     #return render(request, "chat/room_1.html", {"room_name": room_name, 'user': request.user})
 
 #def room(request, user2):

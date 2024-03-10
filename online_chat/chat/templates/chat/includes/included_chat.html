@@ -15,9 +15,20 @@
                                         style='max-width: 150px;'>
                                 {% endthumbnail %}
                                 <div class="chat-about">
-                            
                                     <h6 class="m-b-0">{{ i.username }}</h6>
-                                    <small>Last seen: 2 hours ago</small>
+                                    <small id="user-status">
+                                        {% if i.online %}
+                                            онлайн
+                                        {% else %}
+                                            {% if date|date:"j" == i.last_online|date:"j" %}
+                                                Был в сети: сегодня в {{ i.last_online|time:"H:i" }}
+                                            {% elif date|date:"j"|add:-1 == i.last_online|date:"j" %}
+                                                Был в сети: вчера в {{ i.last_online|time:"H:i" }}
+                                            {% else %}
+                                                Был в сети:{{ i.last_online }}
+                                            {% endif %}
+                                        {% endif %}
+                                    </small>
                                 </div>
                             </div>
                             
