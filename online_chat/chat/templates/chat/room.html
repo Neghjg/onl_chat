@@ -85,15 +85,36 @@
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             const chat = document.getElementById('chat');
-            const dateOptions = {hour: 'numeric', minute: 'numeric', hour24: true};
-            const datetime = new Date(data.datetime).toLocaleString('ru', dateOptions);
+            const dateOptions = {hour: 'numeric', minute: 'numeric', day:'numeric', month:'short', hour24: true};
+            //const datetime = new Date(data.datetime).toLocaleString('ru', dateOptions);
+            const messageDate = new Date(data.datetime);
+            const today = new Date();
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
             const chat_scroll = document.getElementById('chat_scroll');
-            console.log(datetime)
+            
             console.log(data);
             const isMe = data.user === requestUser;
             const source = isMe ? 'other-message float-right' : 'my-message';
             const name = isMe ? 'Me' : data.user;
-            //document.querySelector('#chat-log').value += (name + ': ' + data.message + '\n');
+
+            const isToday = messageDate.getDate() === today.getDate() &&
+                   messageDate.getMonth() === today.getMonth() &&
+                   messageDate.getFullYear() === today.getFullYear();
+
+            const isYesterday = messageDate.getDate() === yesterday.getDate() &&
+                   messageDate.getMonth() === yesterday.getMonth() &&
+                   messageDate.getFullYear() === yesterday.getFullYear();
+  
+            let datetime;
+            if (isToday) {
+                datetime = 'сегодня ' + messageDate.toLocaleString('ru', {hour: 'numeric', minute: 'numeric', hour12: false});
+            } else if (isYesterday) {
+                datetime = 'вчера ' + messageDate.toLocaleString('ru', {hour: 'numeric', minute: 'numeric', hour12: false});
+            } else {
+                datetime = messageDate.toLocaleString('ru', dateOptions);
+            }
+                //document.querySelector('#chat-log').value += (name + ': ' + data.message + '\n');
             chat.innerHTML += '<li class="clearfix">' +
                               '<div class="message-data ' + source + 
                               '-data"><span class="message-data-time">' + 
