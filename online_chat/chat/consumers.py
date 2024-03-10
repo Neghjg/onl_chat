@@ -38,7 +38,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.utils import timezone
-from chat.models import ChatMessage2, UserMessege2
+from chat.models import ChatMessage2, UserMessege2, ChatMessage3, UserMessege3
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -46,7 +46,8 @@ class ChatConsumer(WebsocketConsumer):
         self.user = self.scope['user']
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = f"chat_{self.room_name}"
-        self.room = ChatMessage2.objects.get(id=self.room_name)
+        #self.room = ChatMessage2.objects.get(id=self.room_name)
+        self.room = ChatMessage3.objects.get(id=self.room_name)
         
         
         
@@ -59,7 +60,8 @@ class ChatConsumer(WebsocketConsumer):
         self.accept()
         
         
-        message = UserMessege2.objects.filter(chat_room=self.room).order_by("-id")[:10]
+        #message = UserMessege2.objects.filter(chat_room=self.room).order_by("-id")[:10]
+        message = UserMessege3.objects.filter(chat_room=self.room).order_by("-id")[:10]
         for mes in reversed(message):
             self.send(text_data=json.dumps({
                 "message": mes.text,
@@ -80,8 +82,8 @@ class ChatConsumer(WebsocketConsumer):
         now = timezone.now()
         datetime = now.isoformat()
         #UserMessege2.objects.create(chat_room=self.room_name, user=self.user, text=message)
-        UserMessege2.objects.create(chat_room=self.room, user=self.user, text=message)
-        chat_update = ChatMessage2.objects.get(id=self.room_name)
+        UserMessege3.objects.create(chat_room=self.room, user=self.user, text=message)
+        chat_update = ChatMessage3.objects.get(id=self.room_name)
         chat_update.updated = now
         chat_update.save()
         # Send message to room group

@@ -26,39 +26,27 @@
                         <div class="alert alert-info"><p>На данный момент, у вас нет ни одного чата. Воспользуйтесь поиском.</p><div>
                     {% else %}
                     {% for chat in chats %}
-                        {% if chat.user1 != request.user %}
-                            {% with user_1=chat.user1 %}
-                            <a href="{% url "chat:user_name" chat.user1.id %}">
-                                <li class="clearfix">
-                                        <!--<img src="{{ user_1.image.url }}" class='img-fluid rounded-circle'>-->
-                                        {% thumbnail user_1.image "45x45" crop="center" as im %}
-                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
-                                            style='max-width: 150px;'>
-                                        {% endthumbnail %}
-                                    <div class="about">
-                                        <div class="name">{{ chat.user1.username }}</div>
-                                        <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
-                                    </div>
-                                </li>
-                            </a>
-                            {% endwith %}
-                        {% elif chat.user2 != request.user %}
-                        {% with user_2=chat.user2 %}
-                        <a href="{% url "chat:user_name" chat.user2.id %}">
-                            <li class="clearfix">
-                                {% thumbnail user_2.image "45x45" crop="center" as im %}
-                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
-                                        style='max-width: 150px;'>
-                                {% endthumbnail %}
-                                   <!--<img src="{{ user_2.image.url }}" alt="avatar">-->
-                                <div class="about">
-                                    <div class="name">{{ chat.user2.username }}</div>
-                                    <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
-                                </div>
-                            </li>
-                        </a>
+                        {% with us=chat.user.all %}
+                            {% for i in us %}
+                                {% if i != request.user %}
+                                    <a href="{% url "chat:user_name" i.id %}">
+                                        {% if chat.id != room_name %}<li class="clearfix">{% else %}<li class="clearfix active">{% endif %}
+                                                <!--<img src="{{ user.image.url }}" class='img-fluid rounded-circle'>-->
+                                                {% thumbnail i.image "45x45" crop="center" as im %}
+                                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
+                                                    style='max-width: 150px;'>
+                                                {% endthumbnail %}
+                                            <div class="about">
+                                                <div class="name">{{ i.username }}</div>
+                                                <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
+                                            </div>
+                                        </li>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
                         {% endwith %}
-                        {% endif %}
+                        
+                        
                     {% endfor %}
                     {% endif %}
                 </ul>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from authorization.models import User
-from chat.models import ChatMessage2
+from chat.models import ChatMessage2, ChatMessage3
 from django.template.loader import render_to_string
 from django.http import JsonResponse
 
@@ -9,7 +9,9 @@ def index(request):
     return render(request, "chat/index.html")
 
 def room(request, room_name):
-    chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user).order_by("-updated")
+    #chats = ChatMessage2.objects.filter(user1=request.user) | ChatMessage2.objects.filter(user2=request.user).order_by("-updated")
+    chats = ChatMessage3.objects.filter(user=request.user).order_by("-updated")
+    
     if room_name == 'None' and chats.exists():
         return render(request, "chat/room.html", {"room_name": chats[0].id, 'user': request.user, "chats": chats})
     elif room_name == 'None' and not chats.exists():
@@ -41,21 +43,29 @@ def room(request, room_name):
 
 def user_name(request, user_name):
     user_name_2 = request.user
-    chat_room_1 = ChatMessage2.objects.filter(user1=user_name, user2=user_name_2).first()
-    chat_room_2 = ChatMessage2.objects.filter(user2=user_name, user1=user_name_2).first()
-    if chat_room_1:
-        room_name = chat_room_1.id
-        return redirect('chat:room', room_name=room_name)
-    elif chat_room_2:
-        room_name = chat_room_2.id
-        #room(request, room_name)
+    #chat_room_1 = ChatMessage2.objects.filter(user1=user_name, user2=user_name_2).first()
+    #chat_room_2 = ChatMessage2.objects.filter(user2=user_name, user1=user_name_2).first()
+    chat_room = ChatMessage3.objects.filter(user=user_name).filter(user=user_name_2).first()
+    
+    #if chat_room_1:
+    #    room_name = chat_room_1.id
+    #    return redirect('chat:room', room_name=room_name)
+    #elif chat_room_2:
+    #    room_name = chat_room_2.id
+    #    #room(request, room_name)
+    #    return redirect('chat:room', room_name=room_name)
+    if chat_room:
+        room_name = chat_room.id
         return redirect('chat:room', room_name=room_name)
     else:
         user_name = User.objects.get(id=user_name)
         #user_name_2 = User.objects.get(id=user_name_2.id)
         print(user_name)
         print(user_name_2)
-        create_chat_room = ChatMessage2.objects.create(user1=user_name, user2=user_name_2)
+        #create_chat_room = ChatMessage2.objects.create(user1=user_name, user2=user_name_2)
+        create_chat_room = ChatMessage3.objects.create()
+        create_chat_room.user.add(user_name_2)
+        create_chat_room.user.add(user_name)
         
         room_name = create_chat_room.id
         return redirect('chat:room', room_name=room_name)

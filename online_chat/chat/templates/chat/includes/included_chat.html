@@ -5,37 +5,26 @@
     
     {% for chat in chats %}
         {% if chat.id == room_name %}
-            {% if request.user == chat.user1 %}
-                <div class="row">
-                    <div class="col-lg-6">
-                        {% thumbnail chat.user2.image "45x45" crop="center" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
-                                style='max-width: 150px;'>
-                        {% endthumbnail %}
-                        <div class="chat-about">
-                    
-                            <h6 class="m-b-0">{{ chat.user2.username }}</h6>
-                            <small>Last seen: 2 hours ago</small>
+            {% with us=chat.user.all %}
+                {% for i in us %}
+                    {% if request.user != i %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {% thumbnail i.image "45x45" crop="center" as im %}
+                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
+                                        style='max-width: 150px;'>
+                                {% endthumbnail %}
+                                <div class="chat-about">
+                            
+                                    <h6 class="m-b-0">{{ i.username }}</h6>
+                                    <small>Last seen: 2 hours ago</small>
+                                </div>
+                            </div>
+                            
                         </div>
-                    </div>
-                    
-                </div>
-            {% else %}
-                <div class="row">
-                    <div class="col-lg-6">
-                        {% thumbnail chat.user1.image "45x45" crop="center" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
-                                style='max-width: 150px;'>
-                        {% endthumbnail %}
-                        <div class="chat-about">
-                    
-                            <h6 class="m-b-0">{{ chat.user1.username }}</h6>
-                            <small>Last seen: 2 hours ago</small>
-                        </div>
-                    </div>
-                    
-                </div>
-            {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endwith %}  
         {% endif %}
     {% endfor %}
 </div>
