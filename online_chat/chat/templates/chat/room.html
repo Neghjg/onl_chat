@@ -20,16 +20,34 @@
                         </button>
                     </div>-->
                 </div>
+
                 <div id="replaceable-content">
                 <ul class="list-unstyled chat-list mt-2 mb-0" id="init_html">
                     {% if not chats %}
                         <div class="alert alert-info"><p>На данный момент, у вас нет ни одного чата. Воспользуйтесь поиском.</p><div>
                     {% else %}
                     {% for chat in chats %}
+                        {% if chat.group_name %}
+                        <a href="{% url "chat:user_name" None chat.group_name %}">
+                            {% if chat.id != room_name %}<li class="clearfix">{% else %}<li class="clearfix active">{% endif %}
+                                    <!--<img src="{{ user.image.url }}" class='img-fluid rounded-circle'>-->
+                                    {% thumbnail chat.group_photo "45x45" crop="center" as im %}
+                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
+                                        style='max-width: 150px;'>
+                                    {% endthumbnail %}
+                                <div class="about">
+                                    <div class="name">{{ chat.group_name }}</div>
+                                    <div class="status" id="user-status">
+                                        status
+                                    </div>                                            
+                                </div>
+                            </li>
+                        </a>
+                        {% else %}
                         {% with us=chat.user.all %}
                             {% for i in us %}
                                 {% if i != request.user %}
-                                    <a href="{% url "chat:user_name" i.id %}">
+                                    <a href="{% url "chat:user_name" i.id None %}">
                                         {% if chat.id != room_name %}<li class="clearfix">{% else %}<li class="clearfix active">{% endif %}
                                                 <!--<img src="{{ user.image.url }}" class='img-fluid rounded-circle'>-->
                                                 {% thumbnail i.image "45x45" crop="center" as im %}
@@ -60,15 +78,28 @@
                                 {% endif %}
                             {% endfor %}
                         {% endwith %}
-                        
-                        
+                        {% endif %}
                     {% endfor %}
                     {% endif %}
                 </ul>
                 </div>
-            
+                <div >
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="file" 
+                            name="group_photo"
+                            accept="image/*">
+                        <input type="text" class="form-control" id= 'profile_form'
+                            name="group_name"
+                            placeholder="Введите назавание группы"
+                            required>
+                            <button type="sumbit" class="btn btn-primary">Создать чат</button>
+                    </form>
+                </div>
             </div>
             
+            
+
             <div class="chat">
                 {% include "chat/includes/included_chat.html" %}
                 

@@ -61,7 +61,7 @@ class ChatConsumer(WebsocketConsumer):
         
         
         #message = UserMessege2.objects.filter(chat_room=self.room).order_by("-id")[:10]
-        message = UserMessege3.objects.filter(chat_room=self.room).order_by("-id")[:10]
+        message = UserMessege3.objects.filter(chat_room=self.room).order_by("-id")
         for mes in reversed(message):
             self.send(text_data=json.dumps({
                 "message": mes.text,
