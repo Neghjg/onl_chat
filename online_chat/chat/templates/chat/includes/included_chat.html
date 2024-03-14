@@ -5,23 +5,6 @@
     
     {% for chat in chats %}
         {% if chat.id == room_name %}
-            {% if chat.group_name %}
-                <div class="row">
-                    <div class="col-lg-6">
-                        {% thumbnail chat.group_photo "45x45" crop="center" as im %}
-                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
-                                style='max-width: 150px;'>
-                        {% endthumbnail %}
-                        <div class="chat-about">
-                            <h6 class="m-b-0">{{ chat.group_name }}</h6>
-                                <input type="text" id="searchInput" placeholder="Введите имя пользователя">
-                                <a href="#">Добавить в группу</a>
-                            
-                        </div>
-                    </div>
-                    
-                </div>
-            {% else %}
             {% with us=chat.user.all %}
                 {% for i in us %}
                     {% if request.user != i %}
@@ -33,7 +16,7 @@
                                 {% endthumbnail %}
                                 <div class="chat-about">
                                     <h6 class="m-b-0">{{ i.username }}</h6>
-                                    <small id="user-status">
+                                    <div id="user-status"><small id="user-status">
                                         {% if i.online %}
                                             онлайн
                                         {% else %}
@@ -45,7 +28,7 @@
                                                 Был в сети:{{ i.last_online }}
                                             {% endif %}
                                         {% endif %}
-                                    </small>
+                                    </small></div>
                                 </div>
                             </div>
                             
@@ -53,12 +36,10 @@
                     {% endif %}
                 {% endfor %}
             {% endwith %}  
-            {% endif %}
         {% endif %}
     {% endfor %}
 </div>
 <div class="chat-history" id='chat_scroll'>
-    <div id="searchResults"></div>
         <ul class="m-b-0" id="chat">
             
         </ul>

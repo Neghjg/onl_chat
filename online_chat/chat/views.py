@@ -19,18 +19,8 @@ def room(request, room_name):
     elif room_name == 'None' and not chats.exists():
         return render(request, "chat/room.html", {'user': request.user})
     
-    if request.method == "POST":
-        group_chat_form = CreateGroupForm(request.POST)
-        if group_chat_form.is_valid():
-            if group_chat_form.cleaned_data.get("group_photo"):
-                image = group_chat_form.cleaned_data.get("group_photo")
-            name = group_chat_form.cleaned_data.get("group_name")
-            group_chat = ChatMessage3.objects.create(group_name=name)
-            group_chat.user.add(request.user)
             
                
-    else:
-        group_chat_form = CreateGroupForm()
     #is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest"
     #if is_ajax_request:
     #    html_content = render_to_string('chat/includes/included_chat.html', {"room_name": room_name, 'user': request.user,'chats': chats}, request=request)
@@ -51,21 +41,19 @@ def room(request, room_name):
                                               'user': request.user,
                                               'chats': chats,
                                               'date': timezone.now(),
-                                              "group_chat_form": group_chat_form})
+                                              })
     #return render(request, "chat/room_1.html", {"room_name": room_name, 'user': request.user})
 
 #def room(request, user2):
 #    user1 = request.user.username
 #    return render(request, "chat/room.html", {"user1": user1, "user2": user2})
 
-def user_name(request, user_name, group_name):
-    if user_name != "None":
-        user_name_2 = request.user
+def user_name(request, user_name):
+    user_name_2 = request.user
         #chat_room_1 = ChatMessage2.objects.filter(user1=user_name, user2=user_name_2).first()
         #chat_room_2 = ChatMessage2.objects.filter(user2=user_name, user1=user_name_2).first()
-        chat_room = ChatMessage3.objects.filter(user=user_name).filter(user=user_name_2).first()
-    else:
-        chat_room = ChatMessage3.objects.filter(group_name=group_name).first()
+    chat_room = ChatMessage3.objects.filter(user=user_name).filter(user=user_name_2).first()
+
     #if chat_room_1:
     #    room_name = chat_room_1.id
     #    return redirect('chat:room', room_name=room_name)
@@ -111,13 +99,3 @@ def chat_search(request):
         return JsonResponse(data=data_dict, safe=False)
     
     return render(request, 'chat/search.html', {'query': query, 'result': result})
-
-
-def group_chat(requset):
-    if requset.method == "POST":
-        group_chat_form = CreateGroupForm()
-        if group_chat_form.is_valid():
-            group = group_chat_form.save(commit=False)
-            group.user = requset.user
-    else:
-        group_chat_form = CreateGroupForm()
