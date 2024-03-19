@@ -19,7 +19,20 @@ def room(request, room_name):
     elif room_name == 'None' and not chats.exists():
         return render(request, "chat/room.html", {'user': request.user})
     
+    if request.method == "POST":
+        group_chat_form = CreateGroupForm(request.POST)
+        if group_chat_form.is_valid():
+            if group_chat_form.cleaned_data.get("group_photo"):
+                image = group_chat_form.cleaned_data.get("group_photo")
+            name = group_chat_form.cleaned_data.get("group_name")
+            group_chat = ChatMessage3.objects.create(group_name=name)
+            group_chat.user.add(request.user)
             
+               
+    else:
+        group_chat_form = CreateGroupForm()
+    
+    users_in_group = ChatMessage3.objects.get(id=room_name).user.all()
                
     #is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest"
     #if is_ajax_request:
@@ -37,22 +50,27 @@ def room(request, room_name):
     #create_chat_room = ChatMessage.objects.create(user1=user_name, user2=user_name_2)
     #print(create_chat_room)
     #else:
+    
     return render(request, "chat/room.html", {"room_name": int(room_name),
                                               'user': request.user,
                                               'chats': chats,
                                               'date': timezone.now(),
-                                              })
+                                              "group_chat_form": group_chat_form,
+                                              "users_in_group": users_in_group})
     #return render(request, "chat/room_1.html", {"room_name": room_name, 'user': request.user})
 
 #def room(request, user2):
 #    user1 = request.user.username
 #    return render(request, "chat/room.html", {"user1": user1, "user2": user2})
 
-def user_name(request, user_name):
-    user_name_2 = request.user
-        #chat_room_1 = ChatMessage2.objects.filter(user1=user_name, user2=user_name_2).first()
-        #chat_room_2 = ChatMessage2.objects.filter(user2=user_name, user1=user_name_2).first()
-    chat_room = ChatMessage3.objects.filter(user=user_name).filter(user=user_name_2).first()
+def user_name(request, user_name, group_name):
+    if user_name != "None":
+        user_name_2 = request.user
+            #chat_room_1 = ChatMessage2.objects.filter(user1=user_name, user2=user_name_2).first()
+            #chat_room_2 = ChatMessage2.objects.filter(user2=user_name, user1=user_name_2).first()
+        chat_room = ChatMessage3.objects.filter(user=user_name).filter(user=user_name_2).first()
+    else:
+        chat_room = ChatMessage3.objects.filter(group_name=group_name).first()
 
     #if chat_room_1:
     #    room_name = chat_room_1.id
@@ -80,6 +98,7 @@ def chat_search(request):
     result = []
     if request.method == 'GET':
         query = request.GET.get('search')
+        room_name = request.GET.get('room_name')
         if query == '':
             query = 'None'
         result = User.objects.filter(username__icontains = query)
@@ -89,13 +108,35 @@ def chat_search(request):
     does_req_accept_json = request.accepts("application/json")
     is_ajax_request = request.headers.get("x-requested-with") == "XMLHttpRequest" and does_req_accept_json
     if is_ajax_request:
-        html = render_to_string(
-            template_name="chat/search.html", 
-            context={"result": result, "query":query}
-        )
+        if room_name:
+            html = render_to_string(
+                template_name="chat/search_group.html", 
+                context={"result": result, "query":query, "room_name": room_name}
+            )
+        else:
+            html = render_to_string(
+                template_name="chat/search.html", 
+                context={"result": result, "query":query}
+            )
 
         data_dict = {"html_from_view": html}
 
         return JsonResponse(data=data_dict, safe=False)
     
     return render(request, 'chat/search.html', {'query': query, 'result': result})
+
+def group_chat(requset):
+    if requset.method == "POST":
+        group_chat_form = CreateGroupForm()
+        if group_chat_form.is_valid():
+            group = group_chat_form.save(commit=False)
+            group.user = requset.user
+    else:
+        group_chat_form = CreateGroupForm()
+        
+        
+def add_to_group(request, user_name, room_name):
+    user = User.objects.get(username=user_name)
+    chat_group = ChatMessage3.objects.get(id=room_name)
+    chat_group.user.add(user)
+    return redirect(request.META['HTTP_REFERER'])

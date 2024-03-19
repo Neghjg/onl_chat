@@ -65,6 +65,10 @@ html, body {
     width: 370px;
 }
 
+#group_chat_create_input{
+    width: 240px;
+}
+
 .card {
     background: #fff;
     transition: .5s;
@@ -104,27 +108,27 @@ html, body {
     transition: .5s
 }
 
-.people-list .chat-list li {
+.chat-list li {
     padding: 10px 15px;
     list-style: none;
     border-radius: 3px
 }
 
-.people-list .chat-list li:hover {
+.chat-list li:hover {
     background: #efefef;
     cursor: pointer
 }
 
-.people-list .chat-list li.active {
+.chat-list li.active {
     background: #efefef
 }
 
-.people-list .chat-list li .name {
+.chat-list li .name {
     font-size: 15px;
     color: black;
 }
 
-.people-list .chat-list img {
+.chat-list img {
     width: 45px;
     border-radius: 50%
 }
@@ -134,12 +138,12 @@ html, body {
     border-radius: 50%
 }
 
-.people-list .about {
+.about {
     float: left;
     padding-left: 8px
 }
 
-.people-list .status {
+.status {
     color: #999;
     font-size: 13px
 }
@@ -352,24 +356,71 @@ html, body {
     }
 }
 
-.chat-history::-webkit-scrollbar {
+.chat-history::-webkit-scrollbar,
+.list-unstyled::-webkit-scrollbar {
     width: 5px;
     
     
   }
   
-.chat-history::-webkit-scrollbar-thumb {
+.chat-history::-webkit-scrollbar-thumb,
+.list-unstyled::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: rgba(13, 110, 253, 0.2);
     
     
   }
   
-.chat-history::-webkit-scrollbar-track {
+.chat-history::-webkit-scrollbar-track,
+.list-unstyled::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
     border-radius: 10px;
     background-color: #f9f9fd;
     display: none;
-  }
+}
 
-  
+.create_group_chat{
+    margin: 15px 0 0 0;
+}
+
+#id_group_photo{
+    margin: 0 0 5px 0;
+}
+
+#count_group {
+    text-decoration: none;
+}
+
+.participants-list {
+    display: none; /* Изначально скрываем список */
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 1000; /* Установите z-index, чтобы список находился поверх других элементов */
+    width: 260px;
+}
+
+/* Пример стилей для элементов списка */
+.participants-list a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #333;
+}
+
+.participants-list a:hover {
+    background-color: #f0f0f0;
+}
+
+#group_chat {
+    margin: 10px 0 0 0;
+}
+
+#a_add_to_group{
+    color: #0379b8;
+}
+
+#a_add_to_group:hover{
+    color: #003985;
+}

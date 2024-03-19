@@ -9,5 +9,6 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("search/", views.chat_search, name="search"),
     path("<slug:room_name>/", views.room, name="room"),
-    path("private/<slug:user_name>/", views.user_name, name="user_name"),
+    path("private/<slug:user_name>/<slug:group_name>/", views.user_name, name="user_name"),
+    path("add_to_group/<slug:user_name>/<slug:room_name>/", views.add_to_group, name="add_to_group"),
 ]
