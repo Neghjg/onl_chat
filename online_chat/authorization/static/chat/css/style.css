@@ -218,7 +218,7 @@ html, body {
     pointer-events: none;
     border-bottom-color: #fff;
     border-width: 10px;
-    margin-left: -10px
+    margin-left: -25px
 }
 
 .chat .chat-history .my-message {
@@ -423,4 +423,8 @@ html, body {
 
 #a_add_to_group:hover{
     color: #003985;
+}
+
+#show-participants{
+    text-decoration: none;
 }

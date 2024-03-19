@@ -37,7 +37,7 @@
             <p>
                 <label class="form_label" for="id_email">Email: </label>
                 <input type='email' class='form-control' id= 'order_form' name='email'
-                value="{% if form.email.value %}{{ form.email.value }}{% endif %}">
+                    value="{% if form.email.value %}{{ form.email.value }}{% endif %}">
             </p>
             {% if form.email.errors %}
                 <div style="max-width:400px" class="alert alert-danger alert-dismissible fade show">{{ form.email.errors }}</div>
@@ -53,7 +53,7 @@
             <p>
                 <label class="form_label" for="id_password2">Повтор пароля: </label>
                 <input type='password' class='form-control' id= 'order_form' name='password2'
-                value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}">
+                    value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}">
             </p>
             {% if form.password2.errors %}
                 <div style="max-width:400px" class="alert alert-danger alert-dismissible fade show">{{ form.password2.errors }}</div>

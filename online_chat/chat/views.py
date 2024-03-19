@@ -116,7 +116,7 @@ def chat_search(request):
         else:
             html = render_to_string(
                 template_name="chat/search.html", 
-                context={"result": result, "query":query}
+                context={"result": result, "query":query, "user":request.user}
             )
 
         data_dict = {"html_from_view": html}

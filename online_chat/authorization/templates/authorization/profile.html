@@ -14,16 +14,13 @@
                     {% if user.image %}
                         {% thumbnail user.image "150x150" crop="center" as im %}
                             <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle' id="profile_photo"
-                            style='max-width: 150px;'>
+                                style='max-width: 150px;'>
                         {% endthumbnail %}
-                       
-
                     {% else %}
                         <img src="{% static "deps/images/vk_default.jpg" %}"
-                        alt='Фотография профиля' class='img-fluid rounded-circle' id="profile_photo"
-                        style='max-width: 150px;'>
+                            alt='Фотография профиля' class='img-fluid rounded-circle' id="profile_photo"
+                            style='max-width: 150px;'>
                     {% endif %}
-                    <!--<label for="id_image" class="form-label">Фотография*</label>-->
                     <input type="file" class="form-control" id='profile_form'
                         name="image"
                         accept="image/*">

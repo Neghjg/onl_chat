@@ -10,18 +10,35 @@
 
 <ul class="list-unstyled chat-list mt-2 mb-0" id="init_html">
     {% for i in result %}
-    <a href="{% url 'chat:user_name' i.id None %}">
-        <li class="clearfix">
-            {% thumbnail i.image "45x45" crop="center" as im %}
-                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
-                    style='max-width: 150px;'>
-            {% endthumbnail %}
-            <div class="about">
-                <div class="name">{{ i.username }}</div>
-                <div class="status"> <i class="fa fa-circle offline"></i> left 7 mins ago </div>                                            
-            </div>
-        </li>
-    </a>
+        {% if i != user %}
+            <a href="{% url 'chat:user_name' i.id None %}">
+                <li class="clearfix">
+                    {% thumbnail i.image "45x45" crop="center" as im %}
+                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
+                            style='max-width: 150px;'>
+                    {% endthumbnail %}
+                    <div class="about">
+                        <div class="name">{{ i.username }}</div>
+                        <div class="status" id="user-status">
+                            {% if i.online %}
+                                онлайн
+                            {% else %}
+                                {% if date|date:"j" == i.last_online|date:"j" %}
+                                    Был в сети: сегодня<br>
+                                    в {{ i.last_online|time:"H:i" }}
+                                {% elif date|date:"j"|add:-1 == i.last_online|date:"j" %}
+                                    Был в сети: вчера<br>
+                                    в {{ i.last_online|time:"H:i" }}
+                                {% else %}
+                                    Был в сети:<br>
+                                    {{ i.last_online }}
+                                {% endif %}
+                            {% endif %}
+                        </div>                                           
+                    </div>
+                </li>
+            </a>
+        {% endif %}
     {% endfor %}
 </ul>
 
