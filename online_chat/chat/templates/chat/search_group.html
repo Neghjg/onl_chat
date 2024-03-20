@@ -1,7 +1,7 @@
 {% load static %}
 {% load thumbnail %}
-{% block content %}
 
+{% block content %}
 
 {% if query %}
 
@@ -9,7 +9,6 @@
 
 <ul class="list-unstyled chat-list mt-2 mb-0" id="init_html">
     {% for i in result %}
-    
         <li class="clearfix">
             {% thumbnail i.image "45x45" crop="center" as im %}
                 <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
@@ -17,11 +16,9 @@
             {% endthumbnail %}
             <div class="about">
                 <div class="name">{{ i.username }}</div>
-                <div class="status"><a href="{% url 'chat:add_to_group' i.username room_name %}" id="a_add_to_group">Добавить в группу</a></div>                                             
-                
+                <div class="status"><a href="{% url 'chat:add_to_group' i.username room_name %}" id="a_add_to_group">Добавить в группу</a></div>
             </div>
         </li>
-    
     {% endfor %}
 </ul>
 
