@@ -19,15 +19,15 @@
                         {% else %}
                         {% for chat in chats %}
                             {% if chat.group_name %}
-                                <a href="{% url "chat:user_name" None chat.group_name %}">
-                                {% if chat.id != room_name %}<li class="clearfix">{% else %}<li class="clearfix active">{% endif %}
+                                <a href="{% url "chat:user_name" None chat.id %}">
+                                {% if chat.id != room_id %}<li class="clearfix">{% else %}<li class="clearfix active">{% endif %}
                                         {% thumbnail chat.group_photo "45x45" crop="center" as im %}
                                             <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
                                             style='max-width: 150px;'>
                                         {% endthumbnail %}
                                     <div class="about">
                                         <div class="name">{{ chat.group_name }}</div>
-                                        <div class="status" id="user-status">
+                                        <div class="status" >
                                             status
                                         </div>                                            
                                     </div>
@@ -38,7 +38,7 @@
                                 {% for i in us %}
                                     {% if i != request.user %}
                                         <a href="{% url "chat:user_name" i.id None %}">
-                                            {% if chat.id != room_name %}<li class="clearfix">{% else %}<li class="clearfix active">{% endif %}
+                                            {% if chat.id != room_id %}<li class="clearfix">{% else %}<li class="clearfix active">{% endif %}
                                                     {% thumbnail i.image "45x45" crop="center" as im %}
                                                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
                                                             style='max-width: 150px;'>
@@ -106,7 +106,7 @@
 </div>
 </div>
 {% block include_js %}
-{{ room_name|json_script:"room-name" }}
+{{ room_id|json_script:"room-name" }}
 {{ request.user.username|json_script:"request-user" }}
 {% endblock %}
 
@@ -320,7 +320,7 @@
 
             const request_parameters = {
                 search: searchValue,
-                room_name: roomName,
+                room_id: roomName,
             }
 
             if (scheduled_function_group_add) {

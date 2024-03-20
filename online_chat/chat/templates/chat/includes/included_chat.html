@@ -4,7 +4,7 @@
 <div class="chat-header clearfix">
     
     {% for chat in chats %}
-        {% if chat.id == room_name %}
+        {% if chat.id == room_id %}
             {% if chat.group_name %}
             <div class="row">
                 <div class="col-lg-6">
@@ -14,14 +14,12 @@
                     {% endthumbnail %}
                     <div class="chat-about">
                         <h6 class="m-b-0">{{ chat.group_name }}</h6>
-                        <div id="user-status" class="user-status-container">
+                        <div class="user-status-container">
                             <a href="#" id="show-participants">участников: {{ users_in_group|length }}</a>
                             <div id="participants-list" class="participants-list">
                                 <div id="replace_content_group">
                                 <ul class="list-unstyled chat-list mt-2 mb-0">
                                 {% for us in users_in_group %}
-                                        
-                                    
                                         <li class="clearfix">
                                             {% thumbnail us.image "45x45" crop="center" as im %}
                                                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
@@ -29,27 +27,17 @@
                                                 {% endthumbnail %}
                                             <div class="about">
                                                 <div class="name">{{ us.username }}</div>
-                                                <div class="status" id="user-status">
-                                                    {% if us.online %}
-                                                        онлайн
-                                                    {% else %}
-                                                        {% if date|date:"j" == us.last_online|date:"j" %}
-                                                            Был в сети: сегодня<br>
-                                                            в {{ us.last_online|time:"H:i" }}
-                                                        {% elif date|date:"j"|add:-1 == us.last_online|date:"j" %}
-                                                            Был в сети: вчера<br>
-                                                            в {{ us.last_online|time:"H:i" }}
+                                                <div id="kickout">
+                                                    <a href="{% url "chat:kickout_from_group" us.username room_id %}" id="kickout_a">
+                                                        {% if us != request.user %}
+                                                            Выгнать
                                                         {% else %}
-                                                            Был в сети:<br>
-                                                            {{ us.last_online }}
+                                                            Выйти
                                                         {% endif %}
-                                                    {% endif %}  
-                                                </div>  
-                                                <div id="kickout"><a href="{% url "chat:kickout_from_group" us.username room_name %}" id="kickout_a">Выгнать</a></div>
+                                                    </a>
+                                                </div>
                                             </div>       
                                         </li>
-                                    
-                                
                                 {% endfor %}
                                 </ul>
                                 </div>

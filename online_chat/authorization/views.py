@@ -5,6 +5,7 @@ from django.contrib.auth import login as login_user, logout
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from chat.models import ChatMessage3
 # Create your views here.
 
 def registration(request):
@@ -65,5 +66,8 @@ def index_redirect(request):
     if not request.user.is_authenticated:
         return redirect("authorization:registration", permanent=True)
     elif request.user.is_authenticated:
-        return redirect("chat:room", None, permanent=True)
+        chats = ChatMessage3.objects.filter(user=request.user).order_by("-updated")
+        room_name = chats[0].id
+        print(room_name)
+        return redirect("chat:room", room_name=room_name, permanent=True)
     
