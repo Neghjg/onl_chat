@@ -112,7 +112,6 @@ def add_to_group(request, user_name, room_id):
 
 def kickout_from_group(request, user_name, room_id):
     user = User.objects.get(username=user_name)
-    
     chat_group = ChatMessage3.objects.get(id=room_id)
     chat_group.user.remove(user)
     return redirect(request.META['HTTP_REFERER'])

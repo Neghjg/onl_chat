@@ -15,7 +15,7 @@
                 <div id="replaceable-content">
                     <ul class="list-unstyled chat-list mt-2 mb-0" id="init_html">
                         {% if not chats %}
-                            <div class="alert alert-info"><p>На данный момент, у вас нет ни одного чата. Воспользуйтесь поиском.</p><div>
+                            <div class="alert alert-info">На данный момент, у вас нет ни одного чата. Воспользуйтесь поиском.<div>
                         {% else %}
                         {% for chat in chats %}
                             {% if chat.group_name %}
@@ -338,7 +338,9 @@
         
         document.addEventListener("DOMContentLoaded", function() {
             const showParticipantsLink = document.getElementById("show-participants");
+            const showParticipantsLinkImage = document.getElementById("show-participants-image");
             const participantsList = document.getElementById("participants-list");
+            const participantsListImage = document.getElementById("participants-list-image");
         
             showParticipantsLink.addEventListener("click", function(event) {
                 event.preventDefault(); // Предотвращаем переход по ссылке
@@ -348,6 +350,18 @@
                     participantsList.style.display = "none";
                 } else {
                     participantsList.style.display = "block";
+                }
+            });
+
+
+            showParticipantsLinkImage.addEventListener("click", function(event) {
+                event.preventDefault(); // Предотвращаем переход по ссылке
+        
+                // Переключаем видимость списка участников
+                if (participantsListImage.style.display === "block") {
+                    participantsListImage.style.display = "none";
+                } else {
+                    participantsListImage.style.display = "block";
                 }
             });
         });

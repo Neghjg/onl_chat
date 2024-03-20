@@ -9,9 +9,36 @@
             <div class="row">
                 <div class="col-lg-6">
                     {% thumbnail chat.group_photo "45x45" crop="center" as im %}
+                    <a href="" id="show-participants-image">
                         <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class='img-fluid rounded-circle'
                             style='max-width: 150px;'>
+                    </a>
                     {% endthumbnail %}
+                    <div id="participants-list-image" class="participants-list-image">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <p>
+                                <label class="form_label" id="id_group_photo" for="id_group_photo">Изображение группы: </label>
+                                <input type="file" 
+                                    class="form-control form-control-sm"
+                                    name="group_photo"
+                                    accept="image/*">
+                                {% if group_chat_form.group_photo.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{group_chat_form.group_photo.errors}}</div>
+                                {% endif %}
+                            </p>
+                            <p>
+                                <input type="text" class="form-control" id='group_chat_create_input'
+                                    name="group_name"
+                                    placeholder="Назавание группы"
+                                    required>
+                                {% if group_chat_form.group_name.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{group_chat_form.group_name.errors}}</div>
+                                {% endif %}
+                            </p>
+                                <button type="sumbit" class="btn btn-primary">Создать групповой чат</button>
+                        </form>
+                    </div>
                     <div class="chat-about">
                         <h6 class="m-b-0">{{ chat.group_name }}</h6>
                         <div class="user-status-container">

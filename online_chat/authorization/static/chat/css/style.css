@@ -150,7 +150,8 @@ html, body {
 
 .chat .chat-header {
     padding: 15px 20px;
-    border-bottom: 2px solid #f4f7f6
+    border-bottom: 2px solid #f4f7f6;
+    min-height: 80px;
 }
 
 .chat .chat-header img {
@@ -391,7 +392,8 @@ html, body {
     text-decoration: none;
 }
 
-.participants-list {
+.participants-list,
+.participants-list-image {
     display: none; /* Изначально скрываем список */
     position: absolute;
     background-color: #fff;
@@ -402,15 +404,21 @@ html, body {
 }
 
 /* Пример стилей для элементов списка */
-.participants-list a {
+.participants-list a,
+.participants-list-image a {
     display: block;
     padding: 5px;
     text-decoration: none;
     color: #333;
 }
 
-.participants-list a:hover {
+.participants-list a:hover,
+.participants-list-image a:hover {
     background-color: #f0f0f0;
+}
+
+#participants-list-image {
+    margin: 50px 0 0 0;
 }
 
 #group_chat {
@@ -436,3 +444,4 @@ html, body {
 #kickout_a:hover {
     color: rgb(179, 0, 0);
 }
+
