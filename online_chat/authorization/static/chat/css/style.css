@@ -17,7 +17,6 @@ html, body {
 
 .page {
     min-height: 100%;
-    padding-bottom: 90px;
     min-width: 1000px;
     box-sizing: border-box;
 }

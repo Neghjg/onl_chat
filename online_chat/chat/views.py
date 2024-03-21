@@ -14,7 +14,7 @@ def index(request):
     return render(request, "chat/index.html")
 
 def room(request, room_id):
-    chats = ChatMessage3.objects.filter(user=request.user).order_by("-updated")
+    chats = ChatMessage3.objects.filter(user=request.user).order_by("-updated").prefetch_related("user")
     if room_id == 'None' and chats.exists():
         return render(request, "chat/room.html", {"room_id": chats[0].id, 'user': request.user, "chats": chats})
     elif room_id == 'None' and not chats.exists():
@@ -29,7 +29,7 @@ def room(request, room_id):
     else:
         group_chat_form = CreateGroupForm(instance=chat)
     
-    users_in_group = ChatMessage3.objects.get(id=room_id).user.all()
+    users_in_group = chat.user.all()
     
     return render(request, "chat/room.html", {"room_id": int(room_id),
                                               'user': request.user,

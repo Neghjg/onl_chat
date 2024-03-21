@@ -68,7 +68,7 @@ def index_redirect(request):
     if not request.user.is_authenticated:
         return redirect("authorization:registration", permanent=True)
     elif request.user.is_authenticated:
-        chats = ChatMessage3.objects.filter(user=request.user).order_by("-updated")
+        chats = ChatMessage3.objects.filter(user=request.user).order_by("-updated").prefetch_related("users")
         if chats:
             room_id = chats[0].id
             return redirect("chat:room", room_id=room_id, permanent=True)
