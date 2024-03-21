@@ -18,20 +18,13 @@ def room(request, room_id):
         return render(request, "chat/room.html", {"room_id": chats[0].id, 'user': request.user, "chats": chats})
     elif room_id == 'None' and not chats.exists():
         return render(request, "chat/room.html", {'user': request.user})
-    
+    chat = ChatMessage3.objects.get(id=room_id)
     if request.method == "POST":
         group_chat_form = CreateGroupForm(data=request.POST, files=request.FILES)
         if group_chat_form.is_valid():
             form = group_chat_form.save(commit=False)
-            
-            #form.user = request.user
             form.save()
             form.user.add(request.user)
-            
-            
-            
-
-                
     else:
         group_chat_form = CreateGroupForm()
     
@@ -43,6 +36,18 @@ def room(request, room_id):
                                               'date': timezone.now(),
                                               "group_chat_form": group_chat_form,
                                               "users_in_group": users_in_group})
+
+def change_group(request, room_id):
+    chat = ChatMessage3.objects.get(id=room_id)
+    if request.method == "POST":
+        group_chat_form = CreateGroupForm(data=request.POST, instance=chat, files=request.FILES)
+        if group_chat_form.is_valid():
+            form = group_chat_form.save(commit=False)
+            form.save()
+            form.user.add(request.user)
+    else:
+        group_chat_form = CreateGroupForm(instance=chat)
+        return redirect(request.META['HTTP_REFERER'])
 
 
 def user_name(request, user_name, group_id):

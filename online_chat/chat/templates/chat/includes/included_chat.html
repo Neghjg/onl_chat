@@ -15,7 +15,7 @@
                     </a>
                     {% endthumbnail %}
                     <div id="participants-list-image" class="participants-list-image">
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" enctype="multipart/form-data" action="{% url "chat:change_group" chat.id %}">
                             {% csrf_token %}
                             <p>
                                 <label class="form_label" id="id_group_photo" for="id_group_photo">Изображение группы: </label>
@@ -31,18 +31,19 @@
                                 <input type="text" class="form-control" id='group_chat_create_input'
                                     name="group_name"
                                     placeholder="Назавание группы"
+                                    value="{{ group_chat_form.group_name.value }}"
                                     required>
                                 {% if group_chat_form.group_name.errors %}
                                     <div class="alert alert-danger alert-dismissible fade show">{{group_chat_form.group_name.errors}}</div>
                                 {% endif %}
                             </p>
-                                <button type="sumbit" class="btn btn-primary">Создать групповой чат</button>
+                                <button type="sumbit" class="btn btn-primary">Изменить</button>
                         </form>
                     </div>
                     <div class="chat-about">
                         <h6 class="m-b-0">{{ chat.group_name }}</h6>
                         <div class="user-status-container">
-                            <a href="#" id="show-participants">участников: {{ users_in_group|length }}</a>
+                            <a href="#" id="show-participants">Участников: {{ users_in_group|length }}</a>
                             <div id="participants-list" class="participants-list">
                                 <div id="replace_content_group">
                                 <ul class="list-unstyled chat-list mt-2 mb-0">
