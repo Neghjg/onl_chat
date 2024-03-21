@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.utils import timezone
 from .forms import *
+from django.contrib import messages
 
 
 
@@ -43,8 +44,10 @@ def change_group(request, room_id):
         group_chat_form = CreateGroupForm(data=request.POST, instance=chat, files=request.FILES)
         if group_chat_form.is_valid():
             form = group_chat_form.save(commit=False)
+            group_name = group_chat_form.cleaned_data.get('group_name')
             form.save()
             form.user.add(request.user)
+            messages.success(request, f'Настройки {group_name} сохранены')
     return redirect(request.META['HTTP_REFERER'])
 
 
@@ -97,24 +100,18 @@ def chat_search(request):
     
     return render(request, 'chat/search.html', {'query': query, 'result': result})
 
-def group_chat(requset):
-    if requset.method == "POST":
-        group_chat_form = CreateGroupForm()
-        if group_chat_form.is_valid():
-            group = group_chat_form.save(commit=False)
-            group.user = requset.user
-    else:
-        group_chat_form = CreateGroupForm()
         
         
 def add_to_group(request, user_name, room_id):
     user = User.objects.get(username=user_name)
     chat_group = ChatMessage3.objects.get(id=room_id)
     chat_group.user.add(user)
+    messages.success(request, f'{user} добавлен в {chat_group.group_name}')
     return redirect(request.META['HTTP_REFERER'])
 
 def kickout_from_group(request, user_name, room_id):
     user = User.objects.get(username=user_name)
     chat_group = ChatMessage3.objects.get(id=room_id)
     chat_group.user.remove(user)
+    messages.success(request, f'{user} исключен из {chat_group.group_name}')
     return redirect(request.META['HTTP_REFERER'])

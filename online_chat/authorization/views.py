@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from chat.models import ChatMessage3
+from django.contrib import messages
 # Create your views here.
 
 def registration(request):
@@ -17,7 +18,7 @@ def registration(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login_user(request, user)
-            #messages.success(request, f'{username}, Вы успешно зарегестрированны и вошли в аккаунт')
+            messages.success(request, f'{username}, Вы успешно зарегестрированны и вошли в аккаунт')
             return redirect('/')
     else:
         form = RegistrationUserForm()
@@ -34,7 +35,7 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login_user(request, user)
-                #messages.success(request, f'{username}, Вы успешно вошли в аккаунт')
+                messages.success(request, f'{username}, Вы успешно вошли в аккаунт')
                 return redirect('/')
     else:
         form = LoginUserForm()
@@ -43,7 +44,7 @@ def login(request):
     
     
 def logout_user(request):
-    #messages.success(request, f'{request.user.username}, Вы вышли из аккаунта')
+    messages.success(request, f'{request.user.username}, Вы вышли из аккаунта')
     logout(request)
     return redirect("authorization:login")
 
@@ -54,6 +55,7 @@ def profile(request):
         form = ProfileForm(data=request.POST, instance=request.user, files=request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, f'Профиль успешно изменен')
             return HttpResponseRedirect(reverse('authorization:profile'))
     else:
         form = ProfileForm(instance=request.user)
