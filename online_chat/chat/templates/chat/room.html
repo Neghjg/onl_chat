@@ -26,7 +26,7 @@
                                             style='max-width: 150px;'>
                                         {% endthumbnail %}
                                     <div class="about">
-                                        <div class="name">{{ chat.group_name }}</div>
+                                        <div class="name">{{ chat.group_name|truncatechars:18 }}</div>
                                         <div class="status" >
                                             <!--Участников: {{ users_in_group|length }}-->status
                                         </div>                                            
@@ -44,7 +44,7 @@
                                                             style='max-width: 150px;'>
                                                     {% endthumbnail %}
                                                 <div class="about">
-                                                    <div class="name">{{ i.username }}</div>
+                                                    <div class="name">{{ i.username|truncatechars:18 }}</div>
                                                     <div class="status" id="user-status">
                                                         {% if i.online %}
                                                             онлайн

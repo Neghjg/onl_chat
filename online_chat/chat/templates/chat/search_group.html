@@ -15,7 +15,7 @@
                     style='max-width: 150px;'>
             {% endthumbnail %}
             <div class="about">
-                <div class="name">{{ i.username }}</div>
+                <div class="name">{{ i.username|truncatechars:18 }}</div>
                 <div class="status"><a href="{% url 'chat:add_to_group' i.username room_id %}" id="a_add_to_group">Добавить в группу</a></div>
             </div>
         </li>

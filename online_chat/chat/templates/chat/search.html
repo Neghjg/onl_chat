@@ -17,7 +17,7 @@
                             style='max-width: 150px;'>
                     {% endthumbnail %}
                     <div class="about">
-                        <div class="name">{{ i.username }}</div>
+                        <div class="name">{{ i.username|truncatechars:18 }}</div>
                         <div class="status" id="user-status">
                             {% if i.online %}
                                 онлайн

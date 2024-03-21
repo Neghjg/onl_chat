@@ -26,7 +26,7 @@ def room(request, room_id):
             form.save()
             form.user.add(request.user)
     else:
-        group_chat_form = CreateGroupForm()
+        group_chat_form = CreateGroupForm(instance=chat)
     
     users_in_group = ChatMessage3.objects.get(id=room_id).user.all()
     
@@ -45,9 +45,7 @@ def change_group(request, room_id):
             form = group_chat_form.save(commit=False)
             form.save()
             form.user.add(request.user)
-    else:
-        group_chat_form = CreateGroupForm(instance=chat)
-        return redirect(request.META['HTTP_REFERER'])
+    return redirect(request.META['HTTP_REFERER'])
 
 
 def user_name(request, user_name, group_id):

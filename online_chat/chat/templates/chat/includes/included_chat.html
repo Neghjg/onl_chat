@@ -41,7 +41,7 @@
                         </form>
                     </div>
                     <div class="chat-about">
-                        <h6 class="m-b-0">{{ chat.group_name }}</h6>
+                        <h6 class="m-b-0">{{ chat.group_name|truncatechars:48 }}</h6>
                         <div class="user-status-container">
                             <a href="#" id="show-participants">Участников: {{ users_in_group|length }}</a>
                             <div id="participants-list" class="participants-list">
@@ -54,7 +54,7 @@
                                                     style='max-width: 150px;'>
                                                 {% endthumbnail %}
                                             <div class="about">
-                                                <div class="name">{{ us.username }}</div>
+                                                <div class="name">{{ us.username|truncatechars:18 }}</div>
                                                 <div id="kickout">
                                                     <a href="{% url "chat:kickout_from_group" us.username room_id %}" id="kickout_a">
                                                         {% if us != request.user %}
@@ -90,7 +90,7 @@
                                         style='max-width: 150px;'>
                                 {% endthumbnail %}
                                 <div class="chat-about">
-                                    <h6 class="m-b-0">{{ i.username }}</h6>
+                                    <h6 class="m-b-0">{{ i.username|truncatechars:48 }}</h6>
                                     <div id="user-status"><small id="user-status">
                                         {% if i.online %}
                                             онлайн
