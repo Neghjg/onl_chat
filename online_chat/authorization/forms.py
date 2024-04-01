@@ -12,7 +12,7 @@ class RegistrationUserForm(UserCreationForm):
     email = forms.EmailField()
     password1 = forms.CharField()
     password2 = forms.CharField()
-    recaptcha = ReCaptchaField()
+    #recaptcha = ReCaptchaField()
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
