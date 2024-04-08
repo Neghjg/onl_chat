@@ -1,0 +1,33 @@
+version: "3.7"
+
+
+services:
+  db_postgres:
+    image: postgres:15
+    restart: always
+    container_name: online_chat_postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    env_file:
+      - .env
+  online_chat:
+    image:
+    restart: always
+    container_name: online_chat
+    depends_on:
+      - db_postgres
+    ports:
+      - 8002:8000
+    env_file:
+      - .env
+    command: sh -c "python manage.py collectstatic --noinput &&
+                    python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py loaddata fixtures/books/users.json &&
+                    python manage.py loaddata fixtures/books/cats.json &&
+                    python manage.py loaddata fixtures/books/book.json &&
+                    python manage.py loaddata fixtures/books/reviews.json &&
+                    python manage.py loaddata fixtures/books/order.json &&
+                    python manage.py loaddata fixtures/books/orderitems.json"

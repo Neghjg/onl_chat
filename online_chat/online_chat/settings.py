@@ -29,9 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.getenv("DEBUG", default=0))
 
-ALLOWED_HOSTS = ['1678-169-150-209-163.ngrok-free.app', '127.0.0.1']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
 
 #CSRF_TRUSTED_ORIGINS=['https://1678-169-150-209-163.ngrok-free.app']
 
@@ -104,11 +104,12 @@ WSGI_APPLICATION = 'online_chat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'online_chat',
-        'USER': 'bookingcom',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.getenv('POSTGRESS_name',default='online_chat'),
+        'USER': os.getenv("POSTGRES_USER",default='bookingcom'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        #'HOST': 'localhost',
+        'HOST':'online_chat_postgres',
+        'PORT': os.getenv('POSTGRES_PORT',default='5432'),
     }
 }
 
