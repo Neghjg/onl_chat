@@ -3,3 +3,7 @@ venv/
 .vscode/
 cert.crt
 cert.key
+postgres_data
+docker-compose.yml
+Dockerfile
+.dockerignore
